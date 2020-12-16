@@ -9,7 +9,7 @@ function(msg=""){
 
 #* Plot a histogram
 #* @png
-#* @get /plot
+#* @get /
 function(){
     rand <- rnorm(100)
     hist(rand)
@@ -18,7 +18,16 @@ function(){
 #* Return the sum of two numbers
 #* @param a The first number to add
 #* @param b The second number to add
-#* @post /sum
-function(a, b){
-    as.numeric(a) + as.numeric(b)
+#* @get /sum
+function(a=1, b=2){
+    list(a=a, b=b, sum = as.numeric(a) + as.numeric(b))
+}
+
+
+#* @filter cors
+cors <- function(res) {
+    res$setHeader("Access-Control-Allow-Origin", "*")
+    #res$setHeader("Access-Control-Allow-Method", "POST, GET, OPTIONS")
+    #res$setHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type")
+    plumber::forward()
 }
